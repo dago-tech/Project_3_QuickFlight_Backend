@@ -139,5 +139,5 @@ CORS_ORIGIN_WHITELIST = [
 
 REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M",
-    # Otros ajustes de DRF
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }

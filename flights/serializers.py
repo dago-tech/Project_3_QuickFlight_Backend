@@ -9,6 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+
 '''
 Flight Model Serializers
 '''
@@ -17,6 +18,7 @@ class FlightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flight
         fields = '__all__'
+
 
 # For TopReservationsAPIView, to get reservation number for each airline
 class TopReservationsSerializer(serializers.Serializer):
@@ -29,6 +31,15 @@ Reservation Model Serializers
 '''
 
 class ReservationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reservation
+        fields = '__all__'
+
+# Nested serializer to get data from foreign key models
+class ReservationDetailSerializer(serializers.ModelSerializer):
+    user = UserSerializer()  
+    flight = FlightSerializer()
+
     class Meta:
         model = Reservation
         fields = '__all__'

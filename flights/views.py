@@ -53,7 +53,6 @@ class FlightSearchAPIView(generics.ListAPIView):
             except ValueError:
                 return Response({"error": "Invalid date format"}, status=status.HTTP_400_BAD_REQUEST)
 
-
         # queryset filter
         queryset = Flight.objects.filter(
             origin=search_params.get('origin'),
@@ -66,9 +65,12 @@ class FlightSearchAPIView(generics.ListAPIView):
     def post(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         
+        if queryset:
         # Serialize results
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Not data found"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class TopReservationsAPIView(generics.ListAPIView):
@@ -77,26 +79,37 @@ class TopReservationsAPIView(generics.ListAPIView):
     """  
     serializer_class = TopReservationsSerializer
 
-    def get_queryset(self):
-        
-        return (
+    def list(self, request, *args, **kwargs):
+        queryset = (
             Flight.objects
             .values('airline') # Like SELECT DISTINCT in SQL. Returns a list of airlines
             .annotate(total_reservations=Count('reservation')) # Add a new field and count reservation model instances
             .order_by('-total_reservations')[:15] # DESC
         )
+
+        if not queryset:
+            return Response({"error": "Not data found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
 
 class CountAirlinesAPIView(generics.ListAPIView):
     """
     Get the list of airlines with the most reservations
     """
+
     def get(self, request, *args, **kwargs):
+
         count_airline = Flight.objects.values('airline').annotate(count=Count('airline')) # dict with airline and count
 
-        return Response({
-            'number_of_airlines': len(count_airline),
-        })
+        if not count_airline:
+            return Response({"error": "Not data found"}, status=status.HTTP_404_NOT_FOUND)
+        else:    
+            stats = [{
+                'number_of_airlines': len(count_airline),
+            }]
+            return Response(stats, status=status.HTTP_200_OK)
 
 
 class FlightCreateAPIView(generics.CreateAPIView):
@@ -123,18 +136,9 @@ class FlightCreateAPIView(generics.CreateAPIView):
             raise serializers.ValidationError("Error: Price must be a positive number")
         
         # Object creation
-        # super().perform_create(serializer)
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-class FlightRetrieveAPIView(generics.RetrieveAPIView):
-    """
-    Retrieve a flight using GET method
-    """
-    serializer_class = FlightSerializer
-    queryset = Flight.objects.all()
 
 
 class FlightDeleteAPIView(generics.DestroyAPIView):
@@ -148,6 +152,7 @@ class FlightDeleteAPIView(generics.DestroyAPIView):
 '''
 User Views
 '''
+
 class UserCreateAPIView(generics.CreateAPIView):
     """
     Create a user using POST method
@@ -160,9 +165,37 @@ class UserCreateAPIView(generics.CreateAPIView):
 Reservation Views
 '''
 
+class ReservationListAPIView(generics.ListAPIView):
+    """
+    List of reservations using GET method
+    """
+    serializer_class = ReservationDetailSerializer
+    queryset = Reservation.objects.all()
+
+
 class ReservationCreateAPIView(generics.CreateAPIView):
     """
     Create a reservation using POST method
     """
-    serializer_class = ReservationSerializer
     queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True) # Error if it's not valid
+        self.perform_create(serializer)
+
+        # Update flight model
+        flight_id = request.data.get('flight')
+        try:
+            flight = Flight.objects.get(pk=flight_id)
+            if flight.available_seats < 1:
+                flight.available_seats == 0
+            else:
+                flight.available_seats -= 1
+                flight.save()
+        except Flight.DoesNotExist:
+            return Response({'error': 'Flight does not exists'}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    

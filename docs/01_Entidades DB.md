@@ -25,7 +25,8 @@
     | departure date | DATETIME    | Fecha de partida del vuelo                        |
     | arrival date   | DATETIME    | Fecha de llegada del vuelo                        |
     | airline        | VARCHAR     | Nombre de la aerolinea a la que pertenece el vuelo|
-    | price          | INTEGER     | Precio de viajar en este vuelo                    |
+    | available_seats| INTEGER     | Sillas disponibles en el vuelo                    |
+    | price          | DECIMAL     | Precio de viajar en este vuelo                    |
     | ...            | ...         | ...                                               |
 
 

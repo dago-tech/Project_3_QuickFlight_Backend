@@ -1,6 +1,5 @@
 # Turnow Project
 
-
 API built in Django Rest Framework to cover the backend of this project
 
 1. Create and build the virtual environment in bash console:
@@ -68,37 +67,6 @@ DATABASES = {
 py manage.py makemigrations
 py manage.py migrate
 ```
-
-10. Create models and serializers in every app.
-
-11. Add the following statement at settings.py:
-
-```sh
-AUTH_USER_MODEL = 'users.CustomUser'
-```
-12. Make migrations, if there is any problem, delete python migrations files and the database.
-
-13. Create a superuser
-
-```sh
-py manage.py createsuperuser
-```
-username: daniel
-email: a@a.com
-password: abcd9874
-
-username: Cristiano
-email: b@b.com
-password: qazxsw1234
-
-username: cuadrado
-email: b@b.com
-password: abcd9874
-
-- Create visualizations for models in panel admin updating admin.py files.
-
-14. Create the views, urls and add 'rest_framework' to INSTALLED_APPS.
-
 
 ## Subiendo a Github
 
