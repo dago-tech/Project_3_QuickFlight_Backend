@@ -16,6 +16,7 @@ class Flight(models.Model):
     departure_date = models.DateTimeField()
     arrival_date = models.DateTimeField()
     airline = models.CharField(max_length=50)
+    available_seats = models.IntegerField(default=100)
     price = models.DecimalField(max_digits=12, decimal_places=2)
 
     def __str__(self):

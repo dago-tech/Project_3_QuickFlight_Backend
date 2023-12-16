@@ -109,7 +109,7 @@ git init --initial-branch=main
 ```
 3. Hago mi enlace con el repositorio remoto al que quiero subir el proyecto
 ```sh
-git remote add origin https://github.com/dago-tech/Project_1_Turnow_Backend.git
+git remote add origin https://github.com/dago-tech/Project_3_QuickFlight_Backend.git
 ```
 4. Agrego todos los archivos del proyecto al area de stage
 ```sh

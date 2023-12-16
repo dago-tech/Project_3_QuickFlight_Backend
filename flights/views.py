@@ -1,7 +1,10 @@
+from datetime import datetime
+from django.utils import timezone
 from django.db.models import Count
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics, status
 from .serializers import *
+import pytz
 
 
 '''
@@ -22,24 +25,50 @@ class FlightSearchAPIView(generics.ListAPIView):
     serializer_class = FlightSerializer
 
     def get_queryset(self):
-        # Get parameters from request
-        origin = self.request.query_params.get('origin', None)
-        destination = self.request.query_params.get('destination', None)
-        departure_date = self.request.query_params.get('departure_date', None)
+        # Get parameters
+        search_params = self.request.data
+        print(search_params)
+        # A dict to store dates
+        date_query = {}
+        if 'departure_date' in search_params:
+            try:
+                # Convert date string to datetime object
+                departure_date = datetime.strptime(search_params['departure_date'], "%Y-%m-%dT%H:%M:%S.%fZ")
+                #create a timezone object corresponding to the Bogotá time zone in the pytz library
+                bogota_tz = pytz.timezone('America/Bogota')
+                #make_aware convert a datetime object into an "aware" object, that is, an object that maintains 
+                #information in the time zone to which it belongs.
+                #Converts the departure date to a datetime object with time zone information (timezone-aware)
+                departure_date = timezone.make_aware(departure_date, timezone=pytz.utc).astimezone(bogota_tz)
+                date_query['departure_date__date'] = departure_date.date()
+            except ValueError:
+                return Response({"error": "Invalid date format"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Filter flights by search parameters
-        queryset = Flight.objects.all()
+        if 'arrival_date' in search_params:
+            try:
+                arrival_date = datetime.strptime(search_params['arrival_date'], "%Y-%m-%dT%H:%M:%S.%fZ")
+                bogota_tz = pytz.timezone('America/Bogota')
+                arrival_date = timezone.make_aware(arrival_date, timezone=pytz.utc).astimezone(bogota_tz)
+                date_query['arrival_date__date'] = arrival_date.date()
+            except ValueError:
+                return Response({"error": "Invalid date format"}, status=status.HTTP_400_BAD_REQUEST)
 
-        if origin:
-            queryset = queryset.filter(origin__icontains=origin)
 
-        if destination:
-            queryset = queryset.filter(destination__icontains=destination)
-
-        if departure_date:
-            queryset = queryset.filter(departure_date__date=departure_date)
-
+        # queryset filter
+        queryset = Flight.objects.filter(
+            origin=search_params.get('origin'),
+            destination=search_params.get('destination'),
+            **date_query
+        )
+        
         return queryset
+    
+    def post(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        
+        # Serialize results
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class TopReservationsAPIView(generics.ListAPIView):
@@ -79,18 +108,25 @@ class FlightCreateAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         # Validate that the arrival date is not earlier than the departure date
+        current_date = timezone.now()
         departure_date = serializer.validated_data['departure_date']
         arrival_date = serializer.validated_data['arrival_date']
         price = serializer.validated_data['price']
 
+        if departure_date < current_date or arrival_date < current_date:
+            raise serializers.ValidationError("Error: Any date cannot be before than current date.")
+
         if arrival_date < departure_date:
-            raise serializers.ValidationError("The arrival date cannot be before the departure date.")
+            raise serializers.ValidationError("Error: The arrival date cannot be before the departure date.")
         
         if price < 0:
-            raise serializers.ValidationError("Price must be a positive number")
+            raise serializers.ValidationError("Error: Price must be a positive number")
         
         # Object creation
-        super().perform_create(serializer)
+        # super().perform_create(serializer)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class FlightRetrieveAPIView(generics.RetrieveAPIView):
@@ -117,6 +153,7 @@ class UserCreateAPIView(generics.CreateAPIView):
     Create a user using POST method
     """
     serializer_class = UserSerializer
+    queryset = User.objects.all()
 
 
 '''
@@ -128,3 +165,4 @@ class ReservationCreateAPIView(generics.CreateAPIView):
     Create a reservation using POST method
     """
     serializer_class = ReservationSerializer
+    queryset = Reservation.objects.all()
