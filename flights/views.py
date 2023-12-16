@@ -84,7 +84,7 @@ class TopReservationsAPIView(generics.ListAPIView):
             Flight.objects
             .values('airline') # Like SELECT DISTINCT in SQL. Returns a list of airlines
             .annotate(total_reservations=Count('reservation')) # Add a new field and count reservation model instances
-            .order_by('-total_reservations')[:15] # DESC
+            .order_by('-total_reservations')[:5] # DESC
         )
 
         if not queryset:
