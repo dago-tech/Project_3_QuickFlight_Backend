@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'QuickFlight',
         'USER': 'postgres',
         'PASSWORD': 'maquina123', # General postgresql password
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'DATABASE_PORT': '5432',
     }
 }
