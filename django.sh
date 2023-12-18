@@ -1,11 +1,12 @@
 #!/bin/bash
-echo "Create migrations"
-python manage.py makemigrations
-echo "=================================="
+# En caso de tener una base de datos en un contenedor local
+# echo "Create migrations"
+# python manage.py makemigrations
+# echo "=================================="
 
-echo "Migrate"
-python manage.py migrate
-echo "=================================="
+# echo "Migrate"
+# python manage.py migrate
+# echo "=================================="
 
 echo "Start server"
 python manage.py runserver 0.0.0.0:8000
