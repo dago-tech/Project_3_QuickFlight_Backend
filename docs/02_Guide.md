@@ -245,4 +245,12 @@ CORS_ORIGIN_WHITELIST = [
 3. DEBUG = False
 4. STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 5. pip install gunicorn
+6. pip install dj-database-url
+    import dj_database_url
+
+    DATABASES = {
+        'default': dj_database_url.parse('postgres://dagotech:Qc')
+    }
 6. ALLOWED_HOSTS = ['localhost', 'quickflight.herokuapp.com']
+7. Cuenta en *render*, crear database, crear webservice y asociar a github.
+8. En Start Command en *render*: gunicorn core.wsgi:application

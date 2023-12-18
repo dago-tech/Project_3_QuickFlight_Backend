@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-b-unmm4(_78r&gl_mz9ki_#aykui#1e!4j8ay5d3(8bl_xpl@z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', 'quickflight.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -78,16 +78,22 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'QuickFlight',
-        'USER': 'postgres',
-        'PASSWORD': 'maquina123', # General postgresql password
-        'HOST': '127.0.0.1',
-        'DATABASE_PORT': '5432',
-    }
+    'default': dj_database_url.parse('postgres://dagotech:QcaIOd0HUbtmJn46es9SY2xSDfIIhT6I@dpg-clvqclta73kc73bsa6h0-a.ohio-postgres.render.com/quickflight')
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'quickflight',
+#         'USER': 'dagotech',
+#         'PASSWORD': 'maquina123', # General postgresql password
+#         'HOST': '127.0.0.1',
+#         'DATABASE_PORT': '5432',
+#     }
+# }
 
 
 # Password validation
