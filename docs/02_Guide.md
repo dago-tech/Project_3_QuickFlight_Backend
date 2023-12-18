@@ -124,7 +124,11 @@ git pull origin main --allow-unrelated-histories
 ```sh
 git push origin main
 ```
+10. Crea la nueva rama "dev"
+git branch dev
 
+11. Cambia a la nueva rama "dev"
+git checkout dev
 
 ## API Schema and documentation Generation
 
