@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-b-unmm4(_78r&gl_mz9ki_#aykui#1e!4j8ay5d3(8bl_xpl@z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -84,6 +84,18 @@ DATABASES = {
         'postgres://dagotech:QcaIOd0HUbtmJn46es9SY2xSDfIIhT6I@dpg-clvqclta73kc73bsa6h0-a.ohio-postgres.render.com/quickflight'
         )
 }
+
+# Local Database (Modo desarrollador con db local)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'QuickFlight',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres', # General postgresql password
+#         'HOST': '127.0.0.1',
+#         'DATABASE_PORT': '5432',
+#     }
+# }
 
 
 # Password validation
