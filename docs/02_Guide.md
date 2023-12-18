@@ -220,29 +220,14 @@ CORS_ORIGIN_WHITELIST = [
 
 ## Docker
 
-- Crear docker ignore
-- Crear dockerfile
-
--docker build -t quickflightback .
-docker container ls
-docker image ls
+- docker container ls
+- docker image ls
 - docker rmi <ID de la imagen o nombre de la imagen> (eliminar)
-- docker-compose up
-docker container ls | grep my_container
-- ID: 22eb1dfa1df5
-- IP: 172.17.0.2
-- docker run -d -p 8080:8000 22eb1dfa1df5
-docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ID_DEL_CONTENEDOR
 
+- docker inspect  ID_DEL_CONTENEDOR
 
-- Man de españa
-- docker compose up -d db (inicio este servicio, la db)
-- docker ps -a
+- docker ps 
 - docker volume ls
-- docker compose build djangoapp
-- docker compose up djangoapp (inicio este servicio, el backend)
-
-
 
 
 - docker-compose build
