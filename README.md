@@ -1,7 +1,6 @@
 # Proyecto Backend de la app QuickFlight
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original-wordmark.svg" alt="Python" width="130" height="60"/>
-<img src="https://www.thetestspecimen.com/img/django-initial/django-rest-logo-960w.jpg" alt="django rest framework" width="130" height="60"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-plain-wordmark.svg" alt="postgresql" width="65" height="65"/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original-wordmark.svg" alt="Python" width="130" height="60"/> <img src="https://www.thetestspecimen.com/img/django-initial/django-rest-logo-960w.jpg" alt="django rest framework" width="130" height="60"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-plain-wordmark.svg" alt="postgresql" width="65" height="65"/>
 
 
 Esta API REST busca servir la información para la aplicación QuickFlight la cual va a permitir crear vuelos de avión así como la solicitud de reservas de vuelos basados en datos como el origen, destino, fechas de partida y llegada, y por último la generación de estadísticas.
@@ -35,7 +34,7 @@ Documentacion de API:
 
 - Se debe tener instalado Python y Git
 
-1. Abre la terminal o línea de comandos en la computadora donde deseas descargar el proyecto.
+1. Abre la terminal o línea de comandos en el computador donde deseas descargar el proyecto.
 
 2. Navega al directorio donde deseas almacenar el repositorio.
 
