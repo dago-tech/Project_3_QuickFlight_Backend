@@ -1,4 +1,4 @@
-# Turnow Project
+# QuickFlight Project
 
 API built in Django Rest Framework to cover the backend of this project
 
@@ -237,3 +237,12 @@ CORS_ORIGIN_WHITELIST = [
 - docker-compose build
 - docker-compose up
 - docker-compose down(si quiero detener y eliminar contenedores)
+
+## Deploy to Heroku
+
+1. pip install whitenoise
+2. "whitenoise.middleware.WhiteNoiseMiddleware"
+3. DEBUG = False
+4. STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+5. pip install gunicorn
+6. ALLOWED_HOSTS = ['localhost', 'quickflight.herokuapp.com']
