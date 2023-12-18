@@ -8,7 +8,7 @@ urlpatterns = [
     path('api/flights/', include("flights.urls", namespace='flights_api')),
     path('docs/', include_docs_urls(title='QuickFlight')),
     path('schema', get_schema_view(
-        title="QuickFlight",
+        title="QuickFlight Web Application",
         description="API for QuickFlight APP",
         version="1.0.0"
     ), name='openapi-schema'),

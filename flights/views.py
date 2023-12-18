@@ -34,11 +34,11 @@ class FlightSearchAPIView(generics.ListAPIView):
             try:
                 # Convert date string to datetime object
                 departure_date = datetime.strptime(search_params['departure_date'], "%Y-%m-%dT%H:%M:%S.%fZ")
-                #create a timezone object corresponding to the Bogotá time zone in the pytz library
+                # Create a timezone object corresponding to the Bogotá time zone in the pytz library
                 bogota_tz = pytz.timezone('America/Bogota')
-                #make_aware convert a datetime object into an "aware" object, that is, an object that maintains 
-                #information in the time zone to which it belongs.
-                #Converts the departure date to a datetime object with time zone information (timezone-aware)
+                # make_aware convert a datetime object into an "aware" object, that is, an object that maintains 
+                # information in the time zone to which it belongs.
+                # Converts the departure date to a datetime object with time zone information (timezone-aware)
                 departure_date = timezone.make_aware(departure_date, timezone=pytz.utc).astimezone(bogota_tz)
                 date_query['departure_date__date'] = departure_date.date()
             except ValueError:
@@ -152,10 +152,25 @@ class FlightDeleteAPIView(generics.DestroyAPIView):
 '''
 User Views
 '''
+class UserListAPIView(generics.ListAPIView):
+    """
+    List of users using GET method
+    """
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    
 
 class UserCreateAPIView(generics.CreateAPIView):
     """
     Create a user using POST method
+    """
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
+
+class UserDeleteAPIView(generics.DestroyAPIView):
+    """
+    Delete a user using DELETE method
     """
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -187,6 +202,7 @@ class ReservationCreateAPIView(generics.CreateAPIView):
 
         # Update flight model
         flight_id = request.data.get('flight')
+        # Decrease 1 available seat
         try:
             flight = Flight.objects.get(pk=flight_id)
             if flight.available_seats < 1:
@@ -198,4 +214,11 @@ class ReservationCreateAPIView(generics.CreateAPIView):
             return Response({'error': 'Flight does not exists'}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
+
+
+class ReservationDeleteAPIView(generics.DestroyAPIView):
+    """
+    Delete a reservation using DELETE method
+    """
+    serializer_class = ReservationSerializer
+    queryset = Reservation.objects.all()

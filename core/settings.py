@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,22 +79,11 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-import dj_database_url
-
 DATABASES = {
-    'default': dj_database_url.parse('postgres://dagotech:QcaIOd0HUbtmJn46es9SY2xSDfIIhT6I@dpg-clvqclta73kc73bsa6h0-a.ohio-postgres.render.com/quickflight')
+    'default': dj_database_url.parse(
+        'postgres://dagotech:QcaIOd0HUbtmJn46es9SY2xSDfIIhT6I@dpg-clvqclta73kc73bsa6h0-a.ohio-postgres.render.com/quickflight'
+        )
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'quickflight',
-#         'USER': 'dagotech',
-#         'PASSWORD': 'maquina123', # General postgresql password
-#         'HOST': '127.0.0.1',
-#         'DATABASE_PORT': '5432',
-#     }
-# }
 
 
 # Password validation
@@ -144,9 +134,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ]
 CORS_ALLOW_ALL_ORIGINS=True
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:5173",
-]
 
 REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M",
