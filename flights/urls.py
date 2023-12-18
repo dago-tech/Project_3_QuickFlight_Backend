@@ -10,7 +10,10 @@ urlpatterns = [
     path('search_flight/', FlightSearchAPIView.as_view(), name='flight_search'),
     path('top_reservations/', TopReservationsAPIView.as_view(), name='top_reservations_list'),
     path('count_airlines/', CountAirlinesAPIView.as_view(), name='count_airlines_list'),
+    path('user_list/', UserListAPIView.as_view(), name='user_list'),
     path('user_create/', UserCreateAPIView.as_view(), name='user_create'),
+    path('user_delete/<int:pk>/', UserDeleteAPIView.as_view(), name='user_delete'),
     path('reservation_list/', ReservationListAPIView.as_view(), name='reservation_list'),
     path('reservation_create/', ReservationCreateAPIView.as_view(), name='reservation_create'),
+    path('reservation_delete/<int:pk>/', ReservationDeleteAPIView.as_view(), name='reservation_delete'),
 ]
