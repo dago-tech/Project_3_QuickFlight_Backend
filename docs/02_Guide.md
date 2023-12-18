@@ -1,4 +1,4 @@
-# Turnow Project
+# Quickflight Project
 
 API built in Django Rest Framework to cover the backend of this project
 
