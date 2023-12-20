@@ -55,8 +55,8 @@ class FlightSearchAPIView(generics.ListAPIView):
 
         # queryset filter
         queryset = Flight.objects.filter(
-            origin=search_params.get('origin'),
-            destination=search_params.get('destination'),
+            origin__icontains=search_params.get('origin', ''),
+            destination__icontains=search_params.get('destination', ''),
             **date_query
         )
         
