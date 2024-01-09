@@ -10,16 +10,16 @@ Esta API usa una base de datos PostgreSQL alojada en un servidor en la nube del 
 
 Se utilizan peticiones HTTP y las respuestas son recibidas en formato JSON.
 
-- Se desplegó API en un servidor del sitio web Heroku obteniendo la siguiente  dirección donde se puede navegar a través de sus endpoints:
+- Se desplegó API en un servidor del sitio web Render obteniendo la siguiente dirección donde se puede navegar a través de sus endpoints:
 
-https://quickflight-ffbdc0233c84.herokuapp.com/api/flights
+https://quickflightapp.onrender.com/api/flights/
 
 
 ---
 
 ### Documentacion de API:
 - Modo dev: http://localhost:8000/docs/
-- Modo producción: https://quickflight-ffbdc0233c84.herokuapp.com/docs/
+- Modo producción: https://quickflightapp.onrender.com/docs/
 
 ![Alt text](<docs/img/API Documentation.jpg>)
 

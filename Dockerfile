@@ -1,6 +1,7 @@
 # Use the Python 3.11.1 image as the base image
 FROM python:3.11.1
 # Set an environment variable to ensure that Python output is not buffered
+# output of Python program is not buffered but printed directly to the console
 ENV PYTHONUNBUFFERED 1
 # Set the working directory inside the container to /app/backend
 WORKDIR /app/backend
